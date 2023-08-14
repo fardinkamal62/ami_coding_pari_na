@@ -12,6 +12,7 @@ Assessment by Evident BD Ltd. for the post of Junior Software Engineer (Python B
 - Clone the repository and run `npm i` to install all the dependencies.
 - Run `npm start` to start the server.
 
+See live demo [here](https://13.232.187.132/)
 
 ### Section 0: Tech Stack
 
