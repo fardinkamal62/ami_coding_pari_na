@@ -8,7 +8,7 @@ Assessment by Evident BD Ltd. for the post of Junior Software Engineer (Python B
 
 ### Setup
 
-- Make sure you have `node` & `npm` installed in your system.
+- Make sure you have `node v16` or above & `npm` installed in your system.
 - Clone the repository and run `npm i` to install all the dependencies.
 - Run `npm start` to start the server.
 
@@ -27,7 +27,8 @@ Assessment by Evident BD Ltd. for the post of Junior Software Engineer (Python B
 - `GET /` - Gives main page
 - `GET /login` - Gives login page
 - `GET /register` - Gives register page
-- `GET /api/get/:username` - Gives user data of the given username
+- `GET /api/get/:userID` - Returns user data of the given userID
+- `GET /api/me` - Returns user data of the logged in user
 
 #### 1.2: API Routes
 - `POST /api/login` - Logs in the user and return `token` & `name` in response

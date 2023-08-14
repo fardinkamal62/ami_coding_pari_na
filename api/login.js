@@ -20,7 +20,7 @@ login.signIn = async (req, res) => {
             return;
         }
 
-        const sign = jwt.sign({username: user[0].username}, process.env.TOKEN_SECRET)
+        const sign = jwt.sign({userID: user[0].userID}, process.env.TOKEN_SECRET)
         res.json({code:200, token: sign, name: user[0].name});
     } catch (e) {
         console.log(e)

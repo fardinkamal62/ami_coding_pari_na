@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken')
 
 auth.authenticate = (req, res, next) => {
     try {
-        const header = req.headers['authorization']
-        const token = header && header.split(' ')[1]
+        const header = req.cookies['token'];
+        const token = header && header.split(' ')[0]
         if (token === undefined) {
             res.json({code: 401, message: 'Unauthorised'})
         }

@@ -13,9 +13,9 @@ calls.listDB = async () => {
     console.log(dbList)
 }
 
-calls.find = async (collection, query, limit, page) => {
+calls.find = async (collection, query, limit, page, sort = {timestamp: - 1}) => {
     await client.connect()
-    const response = await client.db(db).collection(collection).find(query).limit(parseInt(limit)).skip(parseInt(limit) * parseInt(page)).sort({timestamp: -1}).toArray()
+    const response = await client.db(db).collection(collection).find(query).limit(parseInt(limit)).skip(parseInt(limit) * parseInt(page)).sort(sort).toArray();
     delete response?.[0]?.['password']
     return response
 }

@@ -1,4 +1,15 @@
-localStorage.getItem('token') ? null : window.location.href = '/login';
+getCookie('token') === undefined ? window.location.href = '/login' : null;
+
+function getCookie(cName) {
+      const name = cName + "=";
+      const cDecoded = decodeURIComponent(document.cookie); //to be careful
+      const cArr = cDecoded .split('; ');
+      let res;
+      cArr.forEach(val => {
+          if (val.indexOf(name) === 0) res = val.substring(name.length);
+      })
+      return res;
+}
 
 let valid = false;
 
@@ -55,7 +66,7 @@ $('body').on('click', '#submit', async function (event) {
         })
 }).on('click', '#logout', function (event) {
     event.preventDefault();
-    localStorage.removeItem('token');
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
     window.location.href = '/login';
 }).focusout(function (event) {
     const id = event.target.id;

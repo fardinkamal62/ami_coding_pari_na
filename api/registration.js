@@ -11,13 +11,16 @@ registration.createAccount = async (req, res) => {
     let timeNow = new Date().getTime()
     let password = await utils.bcrypt.hashPassword(req.body.password)
 
-    const user = await db.calls.find(collection, {username: req.body.username});
+    const user = await db.calls.findOne(collection, {username: req.body.username});
 
-    if (user.length > 0) return res.status(401).json({error: 'Account already exist'})
+    if (user) return res.status(401).json({error: 'Account already exist'});
+
+    const userID = await db.calls.find(collection, {}, 1, 0, {createdAt: -1});
 
     const payload = {
         name: req.body.name,
         username: req.body.username,
+        userID: userID[0].userID + 1,
         password,
         createdAt: timeNow,
     }

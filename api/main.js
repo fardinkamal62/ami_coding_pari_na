@@ -11,7 +11,7 @@ main.submit = async (req, res) => {
         const {inputValues, searchValue} = req.body;
         const decoded = req.user;
 
-        const user = await db.calls.findOne(userCollection, {username: decoded.username});
+        const user = await db.calls.findOne(userCollection, {userID: decoded.userID});
         if (!user) {
             return res.status(400).json({
                 success: false,
@@ -27,7 +27,7 @@ main.submit = async (req, res) => {
          */
         db.calls.insert(entryCollection, {
             values: formattedInputValues,
-            username: decoded.username,
+            userID: decoded.userID,
             timestamp: timeNow
         });
 
@@ -54,12 +54,13 @@ main.submit = async (req, res) => {
 // get all entries for a user
 main.getEntries = async (req, res) => {
     try {
-        // find all entries for a user by username
-        const username = req.params.username;
-        const {start_time, end_time, limit = 10, page = 0} = req.query;
+        // find all entries for a user by userID
+        const userID = parseInt(req.params.uid);
+        const {start_time, end_time} = req.params;
+        const {limit = 10, page = 0} = req.query;
 
         const query = {
-            username,
+            userID,
         }
 
         if (start_time) {
@@ -74,6 +75,33 @@ main.getEntries = async (req, res) => {
             message: 'Successful',
             count: dbCall.length,
             data: dbCall,
+        });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({
+            success: false,
+            message: 'Internal server error',
+            error: e,
+        });
+    }
+};
+
+main.getMe = async (req, res) => {
+    try {
+        const decoded = req.user;
+        const user = await db.calls.findOne(userCollection, {userID: decoded.userID});
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: 'User not found',
+            })
+        }
+
+        delete user['password'];
+        res.status(200).json({
+            success: true,
+            message: 'Successful',
+            data: user,
         });
     } catch (e) {
         console.log(e);

@@ -45,7 +45,17 @@
 </div>
 
 <script>
-    localStorage.getItem('token') ? window.location.href = '/' : null;
+    getCookie('token') ? window.location.href = '/' : null;
+    function getCookie(cName) {
+        const name = cName + "=";
+        const cDecoded = decodeURIComponent(document.cookie); //to be careful
+        const cArr = cDecoded .split('; ');
+        let res;
+        cArr.forEach(val => {
+            if (val.indexOf(name) === 0) res = val.substring(name.length);
+        })
+        return res;
+    }
 
     $('#login').click(function (e) {
         e.preventDefault();
@@ -63,7 +73,7 @@
         }).then((res) => res.json())
             .then((response) => {
                 if (response.code === 200) {
-                    localStorage.setItem('token', response.token);
+                    document.cookie = `token=${response.token};path=/`;
                     localStorage.setItem('name', response.name);
                     window.location.href = '/';
                 } else {
